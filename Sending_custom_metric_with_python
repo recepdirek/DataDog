@@ -1,0 +1,21 @@
+$ pip install datadog
+# pip install datadog
+
+send_metric_to_datadog.py
+from datadog import initialize, api
+import time
+import os
+options = {
+    'api_key': 'your_API_key',
+    ## EU costumers need to define 'api_host' as below
+    'api_host': 'https://api.datadoghq.eu/'
+}
+initialize(**options)
+stats = os.stat('file_path/file_name')
+print('Size of file is', stats.st_size/1024/1024, 'megabytes')
+file_size =  stats.st_size/1024/1024
+api.Metric.send(
+    metric='your_metric_name',
+    points=file_size,
+    host='your_host')
+
